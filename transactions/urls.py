@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.transactions_details),
-    path('<int:points>/', views.spend_points)
+    path('<int:points>/', views.spend_points),
+    path('balance/',views.balance)
 ]

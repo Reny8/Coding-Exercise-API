@@ -15,10 +15,9 @@ def transactions_details(request):
     # ADDING A NEW TRANSACTION
     elif request.method == 'POST': 
         serializer = TransactionsSerializer(data = request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status.HTTP_202_ACCEPTED)
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST) 
 
 @api_view(['PUT'])
 def spend_points(request,points):
@@ -27,22 +26,37 @@ def spend_points(request,points):
         # ORDERED THE TRANSACTIONS FROM OLDEST POINTS
         transactions = Transactions.objects.all().order_by("timestamp")
         for trans in transactions: 
-            trans.points -= points
+            if trans.points != 0:
+                trans.points -= points
             # WHEN POINTS FOR TO NEGATIVE DISPLAY WILL BE 0
-            if trans.points < 0:
-                points = abs(trans.points)
-                trans.points = 0
-                serializer = TransactionsSerializer(trans, data = request.data, partial = True)
-                if serializer.is_valid(raise_exception = True):
-                    serializer.save()
-            elif trans.points >= 0:
-                points = 0
-                serializer = TransactionsSerializer(trans, data = request.data, partial = True)
-                if serializer.is_valid(raise_exception=True):
-                    serializer.save()
+                if trans.points < 0:
+                    points = abs(trans.points)
+                    trans.points = 0
+                    serializer = TransactionsSerializer(trans, data = request.data, partial = True)
+                    if serializer.is_valid(raise_exception = True):
+                        serializer.save()
+                elif trans.points >= 0:
+                    points = 0
+                    serializer = TransactionsSerializer(trans, data = request.data, partial = True)
+                    if serializer.is_valid(raise_exception=True):
+                        serializer.save()
+            else:
+                continue
             serializer_all = TransactionsSerializer(transactions, many=True)
             return Response(serializer_all.data, status.HTTP_202_ACCEPTED)
             
+@api_view(['GET'])
+def balance(request):
+    # GET ALL THE BALANCES
+    payers_list = {}
+    transactions = Transactions.objects.all()
+    for payer in transactions:
+        if payer.payer not in payers_list:
+            payers_list[payer.payer] = payer.points
+        elif payer.payer in payers_list:
+            payers_list[payer.payer] += payer.points
+            
+    return Response(payers_list)
            
                 
 

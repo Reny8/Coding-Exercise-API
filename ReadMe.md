@@ -1,17 +1,20 @@
+LAUNCHING YOUR VIRTUAL ENVIRONMENT 
+1. In the terminal complete the following steps: 
+    - type 'pipenv install'
+    - type 'pipenv --venv and copy the path into your python interpreter
+    - type 'python manage.py runserver to start the application
+
 HOW TO USE THIS API:
-1. EXPORT THE POSTMAN COLLECTION IN THE FILES IF YOU WOULD LIKE TO CHECK
-2. CREATE A LOCAL_SETTINGS.PY FILE THAT CONNECTS TO YOUR CHOSEN DATABASE
-3. IN THE TERMINAL CREATE YOUR VIRTUAL ENVIRONMENT BY TYPING pipenv install 
-4. TYPE pipenv --venv AND COPY THE PATH TO PYTHON INTREPRETER
-5. TYPE pipenv shell TO LAUNCH YOUR ENVIRONMENT
-6. THEN TYPE python manage.py runserver TO START
-7. ADD A NEW TRANSACTION WITH THIS URL ('http://127.0.0.1:8000/transactions/')
-    - PROVIDING THE FULL BODY OF THE TRANSACTION MODEL:
-EX: 
+RUNNING THE APPLICATION:
+1. Export the postman collection provided in the files
+2. Create a local_settings.py file that connects to your chose database
+3. Add a new transaction with the url  ('http://127.0.0.1:8000/transactions/')
+    - Providing the full body of the transaction model:
+      EX: 
     {
         "payer" : "NAME",
         "points": AMOUNT OF POINTS INTEGER FIELD,
         "timestamp": "yyyy-mm-dd"
     }
-4. SPEND POINTS USING THIS URL ('http://127.0.0.1:8000/transactions/{<NUMBER-OF-POINTS-HERE>}/')
-5. TO CHECK THE PAYER BALANCES USE THIS URL ('http://127.0.0.1:8000/transactions/balance/')
+4. Spend points inserting the amount of points using this url  ('http://127.0.0.1:8000/transactions/{<NUMBER-OF-POINTS-HERE>}/')
+5. To check the payer balances use this url ('http://127.0.0.1:8000/transactions/balance/')

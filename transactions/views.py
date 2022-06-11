@@ -26,12 +26,11 @@ def spend_points(request,points):
         # ORDERED THE TRANSACTIONS FROM OLDEST POINTS
         transactions = Transactions.objects.all().order_by("timestamp")
         for trans in transactions: 
-            if trans.points != 0:
+            # RUNS CODE ONLY IF THE POINTS ARE GREATER THAN 0 IF NOT IT WILL CONTINUE TO THE NEXT ITERATION
+            if trans.points > 0:
                 trans.points -= points
-            # WHEN POINTS FOR TO NEGATIVE DISPLAY WILL BE 0
                 if trans.points < 0:
                     points = abs(trans.points)
-                    trans.points = 0
                     serializer = TransactionsSerializer(trans, data = request.data, partial = True)
                     if serializer.is_valid(raise_exception = True):
                         serializer.save()

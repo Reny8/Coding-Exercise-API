@@ -7,7 +7,7 @@ LAUNCHING YOUR VIRTUAL ENVIRONMENT
 HOW TO USE THIS API:
 RUNNING THE APPLICATION:
 1. Export the postman collection provided in the files
-2. Create a local_settings.py file that connects to your chose database
+2. Create a local_settings.py file that connects to your chosen database
 3. Add a new transaction with the url  ('http://127.0.0.1:8000/transactions/')
     - Providing the full body of the transaction model:
       EX: 
